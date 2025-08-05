@@ -21,6 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<EcomDbContex>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
   builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
+  builder.Services.AddScoped<IProductRepo, ProductRepo>();
 var app = builder.Build();
 app.UseCors("AllowAngularApp");
 // Configure the HTTP request pipeline.

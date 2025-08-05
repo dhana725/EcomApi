@@ -1,6 +1,7 @@
 public interface IProductRepo
 {
-    Task<ProductDto> AddProductAsync(ProductDto Product);
+    Task<Product> AddProductAsync(Product Product);
+     Task AddSubProductAsync(ProductImage subProduct);
     Task<IEnumerable<ProductDto>> GetProductAsync();
     Task<ProductDto> GetProductByIdAsync(int id);
     Task<ProductDto> UpdateProductdAsync(ProductDto Product);
