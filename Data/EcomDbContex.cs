@@ -6,6 +6,7 @@ public class EcomDbContex : DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductImage> ProductImage { get; set; }
+  public DbSet<Register> Users { get; set; }
 
     
 }

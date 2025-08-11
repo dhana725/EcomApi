@@ -30,9 +30,30 @@ public class ProductRepo : IProductRepo
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<ProductDto>> GetProductAsync()
+    public async Task<IEnumerable<ProductDto>> GetProductAsync()
     {
-        throw new NotImplementedException();
+       var data = await _context.Products
+        .Select(p => new ProductDto
+        {
+            ProductId = p.ProductId,
+            Name = p.Name,
+            Price = p.Price,
+            CategoryId = p.CategoryId,
+            Image =p.Image,
+            SubImages = _context.ProductImage
+                .Where(pi => pi.ProductId == p.ProductId)
+                .Select(pi => new ProductSubImageDto
+                {
+                    ImageUrl = pi.ImageUrl,
+                    ImgOrder = pi.ImgOrder,
+                    ProductId = pi.ProductId
+
+                })
+                .ToList()
+        })
+        .ToListAsync();
+
+    return data;
     }
 
     public Task<ProductDto> GetProductByIdAsync(int id)

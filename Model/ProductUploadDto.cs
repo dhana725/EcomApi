@@ -1,17 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 
-public class Product
+public class ProductUploadDto
 {
-    [Key]
+   
     public int ProductId { get; set; }
-    [Required]
-    [StringLength(100)]
+
     public string Name { get; set; }
     public decimal Price { get; set; }
-    public string Image { get; set; }
+    public IFormFile Image { get; set; }
 
 
     public int CategoryId { get; set; }
     public Category Category { get; set; }
-    public List<ProductImage> SubImages { get; set; }
+    public List<ProductImageUploadDto> SubImages { get; set; }
 }

@@ -70,6 +70,55 @@ namespace EcomApi.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("ProductImage", b =>
+                {
+                    b.Property<int>("ProductImgId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductImgId"));
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ImgOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductImgId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImage");
+                });
+
+            modelBuilder.Entity("Register", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Product", b =>
                 {
                     b.HasOne("Category", "Category")
@@ -81,9 +130,25 @@ namespace EcomApi.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("ProductImage", b =>
+                {
+                    b.HasOne("Product", "Product")
+                        .WithMany("SubImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Product", b =>
+                {
+                    b.Navigation("SubImages");
                 });
 #pragma warning restore 612, 618
         }

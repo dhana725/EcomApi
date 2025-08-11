@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -11,7 +12,7 @@ public class ProductController : ControllerBase
     {
         _repo = repo;
     }
-
+[Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllProducts()
     {
@@ -19,7 +20,7 @@ public class ProductController : ControllerBase
         return Ok(category);
     }
     [HttpPost]
-    public async Task<IActionResult> UploadProduct([FromForm] ProductDto model)
+    public async Task<IActionResult> UploadProduct([FromForm] ProductUploadDto model)
     {
 
         try
@@ -63,14 +64,14 @@ public class ProductController : ControllerBase
             foreach (var sub in model.SubImages)
             {
 
-                if (sub.Image == null)
+                if (sub.ImageUrl == null)
                     continue;
-                var subfileName = $"{sub.ImgOrder}_{Path.GetFileName(sub.Image.FileName)}";
+                var subfileName = $"{sub.ImgOrder}_{Path.GetFileName(sub.ImageUrl.FileName)}";
                 var subfilePath = Path.Combine(subploadPath, subfileName);
 
                 using (var stream = new FileStream(subfilePath, FileMode.Create))
                 {
-                    await sub.Image.CopyToAsync(stream);
+                    await sub.ImageUrl.CopyToAsync(stream);
                 }
 
                 var subImg = new ProductImage
